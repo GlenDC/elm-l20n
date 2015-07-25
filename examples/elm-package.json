@@ -1,13 +1,13 @@
 {
     "version": "1.0.0",
-    "summary": "An Elm API for L20n.js, which reinvents software localization",
+    "summary": "A collection of examples for GlenDC/elm-l20n",
     "repository": "https://github.com/GlenDC/elm-l20n.git",
     "license": "BSD3",
     "source-directories": [
-        "src"
+        "."
     ],
     "native-modules": true,
-    "exposed-modules": ["L20n"],
+    "exposed-modules": [],
     "dependencies":
         { "elm-lang/core": "2.0.1 <= v < 3.0.0"
         , "evancz/elm-html": "3.0.0 <= v < 4.0.0"

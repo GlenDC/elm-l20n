@@ -1,6 +1,7 @@
 module L20n
   ( ready
   , view
+  , id
   , args
   )
   where
@@ -18,6 +19,7 @@ import Native.L20n
 import Html
 import Html.Attributes as Attributes
 import Signal exposing (Signal)
+import Maybe exposing (..)
 import List
 
 
@@ -29,12 +31,21 @@ ready =
 
 {-| Adds a link to your manifest.
     Returns a tuple containing the default and a list of all languages available.
+    Optionally you can force a language to use.
 
         (default, all) = view "locale/manifest.json"
 -}
-view : String -> (String, List String)
-view =
-  Native.L20n.view
+view : String -> Maybe String -> Maybe (String, List String)
+view manifest language =
+  let (default, all) =
+        Native.L20n.view
+          { url = manifest
+          , language = Maybe.withDefault "" language
+          }
+  in
+    if default == ""
+      then Nothing
+      else Just (default, all)
 
 
 {-| Create a localization identifier for an Html Node.
