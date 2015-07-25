@@ -2746,3 +2746,43 @@
 
 /***/ }
 /******/ ])));
+
+/////////////////////////////////
+/// NATIVE MODULE STARTS HERE ///
+/////////////////////////////////
+
+Elm.Native = Elm.Native || {};
+Elm.Native.L20n = {};
+Elm.Native.L20n.make = function(localRuntime){
+
+  localRuntime.Native = localRuntime.Native || {};
+  localRuntime.Native.L20n = localRuntime.Native.L20n || {};
+
+  if (localRuntime.Native.L20n.values){
+    return localRuntime.Native.L20n.values;
+  }
+
+  var NS = Elm.Native.Signal.make(localRuntime);
+  var Utils = Elm.Native.Utils.make(localRuntime);
+
+  var ready = NS.input('L20n.ready', Utils.Tuple0);
+
+  var view = function(manifestURL) {
+    var link = document.createElement('link');
+    link.setAttribute("rel", "localization");
+    link.setAttribute("href", manifestURL);
+    document.getElementsByTagName('head')[0].appendChild(link);
+
+    var manifest = JSON.parse(manifestURL);
+
+    return Utils.Tuple2(manifest.default_locale, manifest.locales);
+  }
+
+  localRuntime.addListener([ready.id], document.l10n, 'ready', function() {});
+
+  return {
+    ready: ready,
+    view: view
+  };
+
+};
